@@ -67,6 +67,7 @@ static redisReply *createReplyObject(int type) {
         return NULL;
 
     r->type = type;
+    r->refcnt = 1;
     return r;
 }
 
@@ -76,6 +77,10 @@ void freeReplyObject(void *reply) {
     size_t j;
 
     if (r == NULL)
+        return;
+
+    assert(r->refcnt > 0);
+    if (--r->refcnt > 0)
         return;
 
     switch(r->type) {

@@ -111,6 +111,7 @@ extern "C" {
 /* This is the reply object returned by redisCommand() */
 typedef struct redisReply {
     int type; /* REDIS_REPLY_* */
+    int refcnt;
     long long integer; /* The integer when type is REDIS_REPLY_INTEGER */
     size_t len; /* Length of string */
     char *str; /* Used for both REDIS_REPLY_ERROR and REDIS_REPLY_STRING */
